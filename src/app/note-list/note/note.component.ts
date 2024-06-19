@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Note } from '../../interfaces/note.interface';
 import { NoteListService } from '../../firebase-services/note-list.service'
 import { FormsModule } from '@angular/forms';
