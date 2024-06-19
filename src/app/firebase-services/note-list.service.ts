@@ -18,26 +18,25 @@ export class NoteListService {
   items$: any;
   items;
 
-  // unSubList:() => void;
+
+
+  unSubList:() => void;
   // unSubSingle:() => void;
 
   constructor() {
-    // this.unSubList = onSnapshot(this.getNotesRef(), (list) => {
-    //   list.forEach(element => {
-    //     console.log(element);
-    //   })
-    // });
-   
+    this.unSubList = onSnapshot(this.getNotesRef(), (list) => {
+      list.forEach(element => {
+        console.log(element.id);
+      })
+    });
+
 
     this.items$ = collectionData(this.getNotesRef());
-    this.items = this.items$.subscribe((list: []) => {
-      if (list) {
-         list.forEach((element: any) => {
+    this.items = this.items$.subscribe((list: Note[]) => {
+      list.forEach((element: any) => {
         console.log(element);
       });
-      }
-     
-    })    
+    })
   }
 
 
