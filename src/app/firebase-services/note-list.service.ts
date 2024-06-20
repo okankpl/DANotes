@@ -12,39 +12,47 @@ export class NoteListService {
   trashNotes: Note[] = [];
   normalNotes: Note[] = [];
 
+
   firestore: Firestore = inject(Firestore);
 
-
-  items$: any;
-  items;
-
-
-
-  unSubList: () => void;
-  // unSubSingle:() => void;
+  unSubTrash: any;
+  unSubNotes: any;
 
   constructor() {
-    this.unSubList = onSnapshot(this.getNotesRef(), (list) => {
-      list.forEach(element => {
-        console.log(element.data());
-      })
-    });
-
-
-    this.items$ = collectionData(this.getNotesRef());
-    this.items = this.items$.subscribe((list: Note[]) => {
-      list.forEach((element: any) => {
-        console.log(element);
-      });
-    })
-
-
+    this.unSubNotes = this.subNotesList(); 
+    this.unSubTrash = this.subTrashList();
   }
 
+  setNoteObject(obj: any, id: string): Note {
+    return {
+      id: id || "",
+      type: obj.type || "note",
+      title: obj.title || "",
+      content: obj.content || "",
+      marked: obj.marked || false,
+    }
+  }
+
+  subTrashList() {
+    return onSnapshot(this.getTrashRef(), (list) => {
+      this.trashNotes = [];
+      list.forEach(element => {
+        this.trashNotes.push(this.setNoteObject(element.data(), element.id));
+      })
+    });
+  }
+
+  subNotesList() {
+    return onSnapshot(this.getNotesRef(), (list) => {
+      this.normalNotes = [];
+      list.forEach(element => {
+        this.normalNotes.push(this.setNoteObject(element.data(), element.id));
+      })
+    });
+  }
 
   ngOnDestroy() {
-    this.unSubList();
-    this.items.unsubscribe();
+    this.unSubTrash();
   }
 
   getTrashRef() {
