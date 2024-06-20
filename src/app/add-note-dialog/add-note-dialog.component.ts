@@ -25,13 +25,12 @@ export class AddNoteDialogComponent {
   }
 
   addNote() {
-    let note = {
+    let note : any = {
       type: "note",
       title: this.title,
       content: this.description,
       marked: false,
     }
-    this.noteService.addNote(note);
+    this.noteService.addNote(note, "notes" );
     this.closeDialog();
-  }
-}
+  }}
