@@ -229,10 +229,7 @@
     </div>
   </div>
   <div>
-    <ul>
-      <li *ngFor="let item of noteList">
-        {{ item.title }}
-      </li>
-    </ul>
+    
+ <app-note *ngFor="let note of getList()" [note]="note"></app-note>
   </div>
 </div>
