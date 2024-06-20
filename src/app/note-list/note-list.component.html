@@ -230,11 +230,9 @@
   </div>
   <div>
     <ul>
-      @for (item of (this.noteService.items$); track item) {
-      <li>
-        {{ item['title'] }}
+      <li *ngFor="let item of noteList">
+        {{ item.title }}
       </li>
-      }
     </ul>
   </div>
 </div>

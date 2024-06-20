@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, OnInit, OnDestroy } from '@angular/core';
 import { Note } from '../interfaces/note.interface';
 import { Firestore, collectionData, collection, doc, onSnapshot } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +20,13 @@ export class NoteListService {
 
 
 
-  unSubList:() => void;
+  unSubList: () => void;
   // unSubSingle:() => void;
 
   constructor() {
     this.unSubList = onSnapshot(this.getNotesRef(), (list) => {
       list.forEach(element => {
-        console.log(element.id);
+        console.log(element.data());
       })
     });
 
@@ -37,11 +37,14 @@ export class NoteListService {
         console.log(element);
       });
     })
+
+
   }
 
 
   ngOnDestroy() {
-
+    this.unSubList();
+    this.items.unsubscribe();
   }
 
   getTrashRef() {
