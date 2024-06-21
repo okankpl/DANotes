@@ -23,23 +23,23 @@ export class NoteListComponent {
   }
 
   getList() {
-    if (this.status === 'trash') {
+    if (this.status == 'notes') {
+      if (this.favFilter == 'all') {
+        return this.noteService.normalNotes;
+      } else {
+        return this.noteService.markedNotes;
+      }
+    } else {
       return this.noteService.trashNotes;
     }
-
-    if (this.favFilter === 'fav') {
-      return this.noteService.normalNotes.filter(note => note.marked);
-    }
-
-    return this.noteService.normalNotes;
   }
 
-  changeFavFilter(filter:"all" | "fav"){
+  changeFavFilter(filter: "all" | "fav") {
     this.favFilter = filter;
   }
 
-  changeTrashStatus(){
-    if(this.status == "trash"){
+  changeTrashStatus() {
+    if (this.status == "trash") {
       this.status = "notes";
     } else {
       this.status = "trash";
